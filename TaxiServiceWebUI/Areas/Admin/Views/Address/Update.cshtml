@@ -1,0 +1,38 @@
+﻿@model TaxiServiceWebUI.Areas.Admin.Models.AddressUpdateViewModel;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Adres Güncelleme Formu</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" asp-controller="Address" asp-action="Update" method="post">
+        <div class="card-body">
+            <div class="form-group row">
+                <label style="display:none;" asp-for="Address.Id" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input type="hidden" asp-for="Address.Id" class="form-control" placeholder="Adres Id.">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Address.Name" class="col-sm-2 col-form-label">Adres</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Address.Name" class="form-control" placeholder="Adresi giriniz.">
+                </div>
+                <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Address.Name"></span>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-info">Kaydet</button>
+            <a href="@Url.Action("List","Address", new { area = "Admin" })" class="btn btn-default float-right">Geri Dön</a>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+</div>

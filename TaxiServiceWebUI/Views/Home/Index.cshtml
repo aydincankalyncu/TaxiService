@@ -1,0 +1,196 @@
+﻿@model TaxiServiceWebUI.Models.ReservationHomeCalculateViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<head>
+    <script src="~/js/jquery/jquery.min.js"></script>
+
+</head>
+
+<div class="hero-wrap" style="background-image: url('images/main/mercedes_anasayfa.png');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-start align-items-center">
+            <div class="col-lg-6 col-md-6 ftco-animate d-flex align-items-end">
+                <div class="text">
+                    <h1 class="mb-4">@localizer["Now"] <span>@localizer["CallTaxi"]</span> <span>@localizer["Easy"]</span></h1>
+                </div>
+            </div>
+            <div class="col-lg-2 col"></div>
+            <div class="col-lg-4 col-md-6 mt-0 mt-md-5 d-flex">
+                <form asp-controller="Reservation" asp-action="Index" method="post" class="request-form ftco-animate">
+                    <h2>@localizer["MakeReservation"]</h2>
+                    <div class="form-group">
+                        <label for="FromId" class="label">@localizer["From"]</label>
+                        <select id="FromInfo1" class="form-control" asp-for="Booking.FromId" asp-items="@ViewBag.Addresses">
+                            <option value="">@localizer["Choose"]</option>
+                        </select>
+                        <span style="font-size: 0.7em; color: darkorange; font-weight: bold;" asp-validation-for="Booking.FromId"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="ToId" class="label">@localizer["To"]</label>
+                        <select id="ToInfo1" class="form-control" asp-for="Booking.ToId">
+                            <option value="">@localizer["Choose"]</option>
+                        </select>
+                        <span style="font-size: 0.7em; color: darkorange; font-weight: bold;" asp-validation-for="Booking.ToId"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="VehicleType" class="label">@localizer["Vehicle"]</label>
+                        <select asp-for="Booking.VehicleType" class="form-control">
+                            <option value="">@localizer["Choose"]</option>
+                            <option value="1">Taxi Max. 3 Pax</option>
+                        </select>
+                        <span style="font-size: 0.7em; color: darkorange; font-weight: bold;" asp-validation-for="Booking.VehicleType"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Passenger" class="label">@localizer["Passenger"]</label>
+                        <input asp-for="Booking.Passenger" type="number" class="form-control" placeholder="1,2,3...">
+                        <span style="font-size: 0.7em; color: darkorange; font-weight: bold;" asp-validation-for="Booking.Passenger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="TransferType" class="label">@localizer["TransferType"]</label>
+                        <select asp-for="Booking.TransferType" class="form-control">
+                            <option value="1">@localizer["OneWay"]</option>
+                            <option value="2">@localizer["Return"]</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value=@localizer["Calculate"] class="btn btn-primary py-3 px-4">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="ftco-section services-section ftco-no-pt ftco-no-pb">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+                <span class="subheading"></span>
+                <h2 class="mb-2">@localizer["OurServices"]</h2>
+                <hr />
+            </div>
+        </div>
+        <div class="row d-flex">
+            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon"><span class="icofont-price"></span></div>
+                            <h3 class="heading mb-0 pl-3">
+                                @localizer["BestPrice"]
+                            </h3>
+                        </div>
+                        <p>@localizer["PriceLabel"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon"><span class="icofont-card"></span></div>
+                            <h3 class="heading mb-0 pl-3">@localizer["FixedPrice"]</h3>
+                        </div>
+                        <p>@localizer["FixedPriceLabel"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon"><span class="icofont-pay"></span></div>
+                            <h3 class="heading mb-0 pl-3">@localizer["DirectPayment"]</h3>
+                        </div>
+                        <p>@localizer["DirectPaymentLabel"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="ftco-section services-section img" style="background-image: url(images/bg_2.jpg);">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                <span class="subheading">@localizer["WorkFlow"]</span>
+                <h2 class="mb-3">@localizer["HowItWorks"]</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services services-2">
+                    <div class="media-body py-md-4 text-center">
+                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                        <h3>@localizer["PickDestination"]</h3>
+                        <p>@localizer["PickDestinationLabel"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services services-2">
+                    <div class="media-body py-md-4 text-center">
+                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-select"></span></div>
+                        <h3>@localizer["SelectTerm"]</h3>
+                        <p>@localizer["SelectTermLabel"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services services-2">
+                    <div class="media-body py-md-4 text-center">
+                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                        <h3>@localizer["ChooseCar"]</h3>
+                        <p>@localizer["ChooseCarLabel"]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services services-2">
+                    <div class="media-body py-md-4 text-center">
+                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-review"></span></div>
+                        <h3>@localizer["EnjoyRide"]</h3>
+                        <p>@localizer["EnjoyRideLabel"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            @foreach (var resort in Model.Resorts)
+            {
+                <div class="col-md-4">
+                    <div class="car-wrap ftco-animate">
+                        <div class="img d-flex align-items-end" style="background-image: url(../images/@resort.ImagePath);">
+                            <div class="price-wrap d-flex">
+                                <span class="rate">€ @resort.Price</span>
+                                <p class="from-day">
+                                    <span>@localizer["From"]</span>
+                                    <span>/@localizer["Day"]</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text p-4 text-center">
+                            <h2 class="mb-0"><a href="car-single.html">@resort.FromAddress -  @resort.ToAddress</a></h2>
+                            <p class="d-flex mb-0 d-block"><a asp-controller="Reservation" asp-action="ResortInfo" asp-route-id="@resort.Id" class="btn btn-black btn-outline-black mr-1">@localizer["Book"]</a></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,86 @@
+﻿@model TaxiServiceWebUI.Areas.Admin.Models.AddressListViewModel;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+<head>
+    <link href="~/css/adminlte/dataTables.bootstrap4.css" rel="stylesheet" />
+    <script src="~/js/adminlte/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="~/js/adminlte/dataTables.bootstrap4.js" type="text/javascript"></script>
+</head>
+
+<h2 class="header">Adres Yönetim Paneli</h2>
+<hr />
+<a class="btn  btn-success" href="@Url.Action("Add","Address", new { area = "Admin"})">Yeni Adres Ekle</a>
+
+<br />
+<br />
+<br />
+<hr />
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title" style="font-weight:bold;">Adres Bilgileri</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table id="dataTable" class="table table-hover text-nowrap">
+                    <thead style="font-weight:bold;">
+                        <tr>
+                            <td>Adres Id</td>
+                            <td>Adres Adı</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var address in Model.Addresses)
+                        {
+                            <tr>
+                                <td>@address.Id</td>
+                                <td>@address.Name</td>
+                                <td><a class="btn  btn-info" asp-controller="Address" asp-action="Update" asp-route-addressId="@address.Id">Güncelle</a></td>
+                                <td><a class="btn btn-danger" asp-controller="Address" asp-action="Delete" asp-route-addressId="@address.Id">Sil</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#dataTable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "language": {
+                "lengthMenu": "Sayfada _MENU_ Adet Kayıt Göster",
+                "zeroRecords": "kayıt bulunamadı",
+                "info": "Gösterilen sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Kayıt bulunamadı",
+                "infoFiltered": "(_MAX_ adet kayıttan süzülen)",
+                "search": "Listede Ara:",
+                paginate: {
+                    first: "İlk",
+                    previous: "Önceki",
+                    next: "Sonraki",
+                    last: "Son"
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,94 @@
+﻿@model TaxiServiceWebUI.Areas.Admin.Models.PriceListViewModel;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<head>
+    <link href="~/css/adminlte/dataTables.bootstrap4.css" rel="stylesheet" />
+    <script src="~/js/adminlte/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="~/js/adminlte/dataTables.bootstrap4.js" type="text/javascript"></script>
+</head>
+
+<h2 class="header">Adres - Fiyat Yönetim Paneli</h2>
+<hr />
+<a class="btn  btn-success" href="@Url.Action("Add","Price", new { area = "Admin"})">Yeni Fiyatlandırma Ekle</a>
+
+
+<br />
+<br />
+<br />
+<hr />
+
+<p>@ViewBag.Error</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title" style="font-weight:bold;">Adres Fiyat Bilgileri</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table id="dataTable" class="table table-hover text-nowrap">
+                    <thead style="font-weight:bold;">
+                        <tr>
+                            <td>Adres Id</td>
+                            <td>Başlangıç Adres No</td>
+                            <td>Bitiş Adres No</td>
+                            <td>Mesafe</td>
+                            <td>Süre</td>
+                            <td>Tek yön fiyat</td>
+                            <td>Gidiş dönüş fiyat</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var price in Model.Prices)
+                        {
+                            <tr>
+                                <td>@price.Id</td>
+                                <td>@price.StartAddress</td>
+                                <td>@price.EndAddress</td>
+                                <td>@price.Distance</td>
+                                <td>@price.TravelTime</td>
+                                <td>@price.OneWayPrice</td>
+                                <td>@price.TwoWayPrice</td>
+                                <td><a class="btn btn-danger" asp-controller="Price" asp-action="Delete" asp-route-priceId="@price.Id">Sil</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#dataTable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "language": {
+                "lengthMenu": "Sayfada _MENU_ Adet Kayıt Göster",
+                "zeroRecords": "kayıt bulunamadı",
+                "info": "Gösterilen sayfa _PAGE_ / _PAGES_",
+                "infoEmpty": "Kayıt bulunamadı",
+                "infoFiltered": "(_MAX_ adet kayıttan süzülen)",
+                "search": "Listede Ara:",
+                paginate: {
+                    first: "İlk",
+                    previous: "Önceki",
+                    next: "Sonraki",
+                    last: "Son"
+                }
+            }
+        });
+    });
+</script>

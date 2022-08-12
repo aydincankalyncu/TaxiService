@@ -1,0 +1,137 @@
+﻿@model TaxiServiceWebUI.Models.ReservationAddViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<head>
+    <script src="~/js/jquery/jquery.min.js"></script>
+</head>
+
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('../images/main/mercedes_resort.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("Index","Home")">@localizer["Home"]<i class="ion-ios-arrow-forward"></i></a></span> <span>@localizer["CompleteReservation"] <i class="ion -ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">@localizer["CompleteYourReservation"]</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <h3>@localizer["CompletedMessage"]</h3>
+        <div class="card-group">
+            <div class="card bg-light mb-lg-4" style="max-width: 30rem;">
+                <div style="font-weight:bold;" class="card-header">@localizer["LocationSummary"]</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>@localizer["Date"] : @Model.Reservation.TransferDate</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["PickupADdress"]: @Model.Reservation.PickUpAddress</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["DropoffAddress"] : @Model.Reservation.DropOffAddress</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Time"]: @Model.Reservation.ArrivalTime : @Model.Reservation.ArrivalMinute</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Address"] : @Model.Reservation.Address</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Hotel"] : @Model.Reservation.Hotel</label>
+                    </div>
+                    @{
+                        if (Model.Reservation.ReturnTransferDate != null)
+                        {
+                            <div class="form-group">
+                                <label>@localizer["ReturnDate"]: @Model.Reservation.ReturnTransferDate</label>
+                            </div>
+                            <div class="form-group">
+                                <label>@localizer["Time"]: @Model.Reservation.ReturnPickUpTime : @Model.Reservation.ReturnPickUpMinute</label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="card bg-light mb-lg-4" style="max-width: 30rem;">
+                <div style="font-weight:bold;" class="card-header">
+                    @localizer["Extras"]
+                </div>
+                <div class="card-body">
+                    @if (Model.Reservation.Bag != 0)
+                    {
+                        <div class="form-group">
+                            <label>@localizer["Bag"] : @Model.Reservation.Bag</label>
+                        </div>
+                    }
+                    @if (Model.Reservation.Ski != 0)
+                    {
+                        <div class="form-group">
+                            <label>@localizer["Ski"] : @Model.Reservation.Ski</label>
+                        </div>
+                    }
+                    @if (Model.Reservation.SnowBoard != 0)
+                    {
+                        <div class="form-group">
+                            <label>@localizer["Snowboard"] : @Model.Reservation.SnowBoard</label>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <label>@localizer["ExtraInfo"] : @Model.Reservation.ExtraInformation</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-group">
+            <div class="card bg-light mb-lg-4" style="        max-width: 30rem;">
+                <div style="font-weight:bold;" class="card-header">@localizer["PassengerSummary"]</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>@localizer["Firstname"] : @Model.Reservation.FirstName</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Lastname"] : @Model.Reservation.LastName</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Email"] : @Model.Reservation.Email</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Phone"] : @Model.Reservation.PhoneNumber</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card bg-light mb-lg-4" style="max-width: 30rem;">
+                <div style="font-weight:bold;" class="card-header">@localizer["ReservationSummary"]</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>@localizer["TransferType"]: @ViewBag.TransferType </label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Vehicle"] : @ViewBag.Vehicle</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["Distance"] : @ViewBag.Distance km</label>
+                    </div>
+                    <div class="form-group">
+                        <label>@localizer["TravelTime"] : @ViewBag.TravelTime min.</label>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:bold;">@localizer["Price"] : @ViewBag.Price €</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

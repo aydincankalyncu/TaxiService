@@ -1,0 +1,68 @@
+﻿@model TaxiServiceWebUI.Areas.Admin.Models.PriceAddViewModel;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Adres Ekleme Formu</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" asp-controller="Price" asp-action="Add" method="post">
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="Price.StartAddress">Nereden</label>
+                <div class="col-sm-10">
+                    <select class="form-control select2-blue" asp-for="Price.StartAddress" asp-items="@ViewBag.Addresses">
+                        <option selected disabled>Seçiniz</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="Price.EndAddress">Nereye</label>
+                <div class="col-sm-10">
+                    <select class="form-control" asp-for="Price.EndAddress" asp-items="@ViewBag.Addresses">
+                        <option selected disabled>Seçiniz</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Price.OneWayPrice" class="col-sm-2 col-form-label"> Tek Yön Fiyat</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Price.OneWayPrice" class="form-control" placeholder="Fiyat giriniz.">
+                </div>
+                <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Price.OneWayPrice"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Price.TwoWayPrice" class="col-sm-2 col-form-label"> Gidiş - Dönüş Fiyat</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Price.TwoWayPrice" class="form-control" placeholder="Fiyat giriniz.">
+                </div>
+                <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Price.TwoWayPrice"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Price.Distance" class="col-sm-2 col-form-label"> İki merkez arası mesafe</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Price.Distance" class="form-control" placeholder="Lütfen km değeri giriniz.">
+                </div>
+                <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Price.Distance"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Price.TravelTime" class="col-sm-2 col-form-label"> İki merkez arası tahmini süre</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Price.TravelTime" class="form-control" placeholder="Lütfen zaman değeri giriniz. (Dakika Formatında Olmalıdır!)">
+                </div>
+                <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Price.TravelTime"></span>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-info">Kaydet</button>
+                <a href="@Url.Action("Index","Price", new { area = "Admin" })" class="btn btn-default float-right">Geri Dön</a>
+            </div>
+            <!-- /.card-footer -->
+        </div>
+    </form>
+</div>

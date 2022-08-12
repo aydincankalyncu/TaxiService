@@ -1,0 +1,255 @@
+﻿@model TaxiServiceWebUI.Models.BookingInfoViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<head>
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <script src="~/js/BookingControl.js"></script>
+</head>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var fromAddress = "Choose";
+    var toAddress = "Choose";
+    var passenger = 0;
+    var vehicle = 0;
+    var distance = 0;
+    var travelTime = 0;
+    var totalPrice = 0;
+    var transferType = 0;
+    if (Model != null)
+    {
+        fromAddress = Model.BookingInfo.FromAddress != null ? Model.BookingInfo.FromAddress : "Choose";
+        toAddress = Model.BookingInfo.ToAddress != null ? Model.BookingInfo.ToAddress : "Choose";
+        passenger = Model.BookingInfo.Passenger != 0 ? Model.BookingInfo.Passenger : 0;
+        vehicle = Model.BookingInfo.VehicleType != 0 ? Model.BookingInfo.VehicleType : 0;
+        distance = Model.BookingInfo.Distance != 0 ? Model.BookingInfo.Distance : 0;
+        travelTime = Model.BookingInfo.TravelTime != 0 ? Model.BookingInfo.TravelTime : 0;
+        totalPrice = Model.BookingInfo.Price != 0 ? Model.BookingInfo.Price : 0;
+        transferType = Model.BookingInfo.TransferType != 0 ? Model.BookingInfo.TransferType : 0;
+    }
+}
+
+<script>
+    
+
+
+</script>
+
+
+
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('../images/main/mercedes_resort.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("Index", "Home")">@localizer["Home"] <i class="ion-ios-arrow-forward"></i></a></span> <span>@localizer["Skiresort"]<i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">@localizer["CompleteReservation"]</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+
+
+        <form asp-controller="Reservation" asp-action="Save" method="post">
+            <h2 style="font-weight:bold;">@localizer["TransferInformation"]</h2>
+            <hr style="border-bottom: 1px solid;" />
+            @if (transferType == 2)
+            {
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="BookingInfo.TransferType" type="radio" name="transferType" id="transferType1" value="1" />
+                            <label class="form-check-label" asp-for="BookingInfo.TransferType">@localizer["OneWay"]</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="BookingInfo.TransferType" type="radio" name="transferType" id="transferType2" value="2" checked />
+                            <label class="form-check-label" asp-for="BookingInfo.TransferType">@localizer["Return"]</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="BookingInfo.TransferType" type="radio" name="transferType" id="transferType1" value="1" checked />
+                            <label class="form-check-label" asp-for="BookingInfo.TransferType">@localizer["OneWay"]</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="BookingInfo.TransferType" type="radio" name="transferType" id="transferType2" value="2" />
+                            <label class="form-check-label" asp-for="BookingInfo.TransferType">@localizer["Return"]</label>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Reservation.TransferDate" class="label">@localizer["TransferDate"] *</label>
+                    <input type="text" class="form-control" asp-for="Reservation.TransferDate" id="book_pick_date" placeholder="@localizer["TransferDate"]">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Reservation.TransferDate"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Reservation.ArrivalTime">@localizer["ArrivalTime"]*</label>
+                    <input type="number" class="form-control" asp-for="Reservation.ArrivalTime" placeholder="@localizer["ArrivalTime"]">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Reservation.ArrivalTime"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Reservation.ArrivalMinute">@localizer["Minute"]*</label>
+                    <input type="number" class="form-control" asp-for="Reservation.ArrivalMinute" placeholder="@localizer["Minute"]">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Reservation.ArrivalMinute"></span>
+                </div>
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label asp-for="BookingInfo.FromId" class="label">@localizer["PickupAddress"]</label>
+                    <select id="FromInfo2" class="form-control" asp-for="BookingInfo.FromId" asp-items="@ViewBag.Addresses">
+                        <option selected>@fromAddress</option>
+                    </select>
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="BookingInfo.FromId"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="BookingInfo.ToId" class="label">@localizer["DropoffAddress"]</label>
+                    <select id="ToInfo2" class="form-control" asp-for="BookingInfo.ToId" asp-items="@ViewBag.Addresses">
+                        <option selected>@toAddress</option>
+                    </select>
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="BookingInfo.ToId"></span>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="BookingInfo.Passenger">@localizer["Passenger"]</label>
+                    <input type="number" class="form-control" asp-for="BookingInfo.Passenger" id="inputPassenger" placeholder="@passenger">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="BookingInfo.Passenger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for=" BookingInfo.VehicleType" class="label">@localizer["Vehicle"]</label>
+                    <select asp-for="BookingInfo.VehicleType" class="form-control">
+                        <option selected>@vehicle</option>
+                        <option value="1">Taxi Max. 3 Pax</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label asp-for="Reservation.Address">@localizer["Address"]</label>
+                    <input type="text" class="form-control" asp-for="Reservation.Address" id="inputAddress" placeholder="@localizer["AddressPlaceholder"]">
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Reservation.Hotel">@localizer["Hotel"]</label>
+                    <input type="text" class="form-control" asp-for="Reservation.Hotel" id="inputHotel" placeholder="@localizer["HotelPlaceholder"]">
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Reservation.Bag">@localizer["Bags"]</label>
+                    <input type="number" class="form-control" asp-for="Reservation.Bag" id="inputBag">
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Reservation.Ski">@localizer["Ski"]</label>
+                    <input type="number" class="form-control" asp-for="Reservation.Ski" id="inputSki">
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Reservation.SnowBoard">@localizer["Snowboard"]</label>
+                    <input type="number" class="form-control" asp-for="Reservation.SnowBoard" id="inputSnowBoard">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label asp-for="Reservation.ExtraInformation">@localizer["ExtraInfo"]</label>
+                    <textarea style="width:100%;" class="form-control" asp-for="Reservation.ExtraInformation" placeholder="@localizer["ExtraInfoPlaceholder"]"></textarea>
+                </div>
+            </div>
+            <div id="testDiv" style="display:none;">
+                <h2 style="font-weight:bold;">@localizer["ReturnTransferInformation"]</h2>
+                <hr style="border-bottom: 1px solid;" />
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="Reservation.ReturnTransferDate" class="label">@localizer["ReturnTransferDate"]</label>
+                        <input type="text" class="form-control" asp-for="Reservation.ReturnTransferDate" id="book_pick_date" placeholder="@localizer["TransferDate"]">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Reservation.ReturnPickUpTime">@localizer["ReturnTime"]</label>
+                        <input type="number" class="form-control" asp-for="Reservation.ReturnPickUpTime" placeholder="Hour">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Reservation.ReturnPickUpMinute">@localizer["Minute"]</label>
+                        <input type="number" class="form-control" asp-for="Reservation.ReturnPickUpMinute" placeholder="Minute">
+                    </div>
+                </div>
+            </div>
+            <h2 style="font-weight:bold;">@localizer["PassengerInformation"]</h2>
+            <hr style="border-bottom: 1px solid;" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Reservation.FirstName">@localizer["FirstName"]*</label>
+                    <input type="text" class="form-control" asp-for="Reservation.FirstName" id="inputName" placeholder="@localizer["FirstName"]">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Reservation.FirstName"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Reservation.LastName">@localizer["LastName"]*</label>
+                    <input type="text" class="form-control" asp-for="Reservation.LastName" id="inputLastName" placeholder="@localizer["LastName"]">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Reservation.LastName"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Reservation.Email">@localizer["Email"]*</label>
+                    <input type="email" class="form-control" asp-for="Reservation.Email" id="inputEmail" placeholder="E-mail Address">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Reservation.Email"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Reservation.PhoneNumber">@localizer["Phone"]*</label>
+                    <input type="text" class="form-control" asp-for="Reservation.PhoneNumber" id="inputPhone" placeholder="Phone Number">
+                    <span style="margin-left:5px; color:red; font-weight:bold;" asp-validation-for="Reservation.PhoneNumber"></span>
+                </div>
+            </div>
+            <h2 style="font-weight:bold;">@localizer["PaymentInformation"]</h2>
+            <hr style="border-bottom: 1px solid;" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input for="PaymentOption" value="1" asp-for="Reservation.PaymentOption" type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" checked>
+                        <label class="custom-control-label" asp-for="Reservation.PaymentOption">@localizer["Cash"]</label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" disabled>
+                        <label class="custom-control-label" for="customRadioInline1">@localizer["Online"]</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="card bg-light mb-3" style="max-width: 18rem;">
+                    <div class="card-header">@localizer["BookingInformation"]</div>
+                    <div class="card-body">
+                        <p class="card-text" id="distance">@localizer["Distance", distance]</p>
+                        <p class="card-text" id="travelTime">@localizer["TravelTime", travelTime]</p>
+                        <p class="card-text" id="totalPrice">@localizer["Price", totalPrice]</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">@localizer["MakeReservation"]</button>
+        </form>
+
+
+    </div>
+</section>
